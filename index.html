@@ -1,256 +1,322 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pendientes con Darlita</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 600px;
-            margin: 50px auto;
-            padding: 20px;
-            background: linear-gradient(135deg, #ffd3e1 0%, #ffe5ec 25%, #ffd9e8 50%, #f8e8f5 75%, #e8d5f2 100%);
-            background-attachment: fixed;
-            min-height: 100vh;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 20px 20px 80px 20px;
+        background: linear-gradient(
+          135deg,
+          #ffd3e1 0%,
+          #ffe5ec 25%,
+          #ffd9e8 50%,
+          #f8e8f5 75%,
+          #e8d5f2 100%
+        );
+        background-attachment: fixed;
+        min-height: 100vh;
+        position: relative;
+      }
 
-        h1 {
-            text-align: center;
-            color: #c44569;
-            margin-bottom: 30px;
-            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
-        }
+      h1 {
+        text-align: center;
+        color: #c44569;
+        margin-bottom: 30px;
+        text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+      }
 
-        .input-container {
-            display: flex;
-            margin-bottom: 20px;
-            gap: 10px;
-        }
+      .input-container {
+        display: flex;
+        margin-bottom: 20px;
+        gap: 10px;
+      }
 
-        #taskInput {
-            flex: 1;
-            padding: 10px;
-            border: 2px solid #ffc2d4;
-            border-radius: 8px;
-            font-size: 16px;
-            background: rgba(255, 255, 255, 0.9);
-            transition: border-color 0.3s;
-        }
+      #taskInput {
+        flex: 1;
+        padding: 10px;
+        border: 2px solid #ffc2d4;
+        border-radius: 8px;
+        font-size: 16px;
+        background: rgba(255, 255, 255, 0.9);
+        transition: border-color 0.3s;
+      }
 
-        #taskInput:focus {
-            outline: none;
-            border-color: #ff9eb7;
-        }
+      #taskInput:focus {
+        outline: none;
+        border-color: #ff9eb7;
+      }
 
-        #addBtn {
-            padding: 10px 20px;
-            background: linear-gradient(135deg, #ff9eb7 0%, #ffb3c6 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 4px 6px rgba(255, 158, 183, 0.3);
-        }
+      #addBtn {
+        padding: 10px 20px;
+        background: linear-gradient(135deg, #ff9eb7 0%, #ffb3c6 100%);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        transition: transform 0.2s, box-shadow 0.2s;
+        box-shadow: 0 4px 6px rgba(255, 158, 183, 0.3);
+      }
 
-        #addBtn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(255, 158, 183, 0.4);
-        }
+      #addBtn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(255, 158, 183, 0.4);
+      }
 
-        #addBtn:active {
-            transform: translateY(0);
-        }
+      #addBtn:active {
+        transform: translateY(0);
+      }
 
-        .task-list {
-            list-style: none;
-            padding: 0;
-        }
+      .task-list {
+        list-style: none;
+        padding: 0;
+      }
 
-        .task-item {
-            background: rgba(255, 255, 255, 0.95);
-            margin-bottom: 10px;
-            padding: 15px;
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(255, 158, 183, 0.2);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border: 2px solid rgba(255, 194, 212, 0.3);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
+      .task-item {
+        background: rgba(255, 255, 255, 0.95);
+        margin-bottom: 10px;
+        padding: 15px;
+        border-radius: 12px;
+        box-shadow: 0 4px 8px rgba(255, 158, 183, 0.2);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border: 2px solid rgba(255, 194, 212, 0.3);
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
 
-        .task-item:hover {
-            transform: translateX(5px);
-            box-shadow: 0 6px 12px rgba(255, 158, 183, 0.3);
-        }
+      .task-item:hover {
+        transform: translateX(5px);
+        box-shadow: 0 6px 12px rgba(255, 158, 183, 0.3);
+      }
 
-        .task-item.completed {
-            background: linear-gradient(135deg, #ffd9e8 0%, #ffe5ec 100%);
-            text-decoration: line-through;
-            opacity: 0.7;
-        }
+      .task-item.completed {
+        background: linear-gradient(135deg, #ffd9e8 0%, #ffe5ec 100%);
+        text-decoration: line-through;
+        opacity: 0.7;
+      }
 
-        .task-checkbox {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-            accent-color: #ff9eb7;
-        }
+      .task-checkbox {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        accent-color: #ff9eb7;
+      }
 
-        .task-text {
-            flex: 1;
-            font-size: 16px;
-            color: #555;
-        }
+      .task-text {
+        flex: 1;
+        font-size: 16px;
+        color: #555;
+      }
 
-        .delete-btn {
-            background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 100%);
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: bold;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 2px 4px rgba(255, 107, 157, 0.3);
-        }
+      .delete-btn {
+        background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 100%);
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: bold;
+        transition: transform 0.2s, box-shadow 0.2s;
+        box-shadow: 0 2px 4px rgba(255, 107, 157, 0.3);
+      }
 
-        .delete-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 8px rgba(255, 107, 157, 0.4);
-        }
+      .delete-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(255, 107, 157, 0.4);
+      }
 
-        .empty-message {
-            text-align: center;
-            color: #c44569;
-            font-style: italic;
-            margin-top: 30px;
-            background: rgba(255, 255, 255, 0.7);
-            padding: 20px;
-            border-radius: 12px;
-            border: 2px dashed #ffc2d4;
-        }
+      .empty-message {
+        text-align: center;
+        color: #c44569;
+        font-style: italic;
+        margin-top: 30px;
+        background: rgba(255, 255, 255, 0.7);
+        padding: 20px;
+        border-radius: 12px;
+        border: 2px dashed #ffc2d4;
+      }
+
+      .music-footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(196, 69, 105, 0.95) 0%,
+          rgba(212, 86, 125, 0.95) 100%
+        );
+        color: white;
+        text-align: center;
+        padding: 15px;
+        font-size: 14px;
+        box-shadow: 0 -4px 12px rgba(196, 69, 105, 0.3);
+        backdrop-filter: blur(10px);
+      }
+
+      .music-footer::before {
+        content: "🎵 ";
+        font-size: 16px;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Pendientes con Darlita</h1>
-    
+
     <div class="input-container">
-        <input type="text" id="taskInput" placeholder="Escribe una tarea..." maxlength="100">
-        <button id="addBtn">Agregar</button>
+      <input
+        type="text"
+        id="taskInput"
+        placeholder="Escribe una tarea..."
+        maxlength="100"
+      />
+      <button id="addBtn">Agregar</button>
     </div>
 
     <ul id="taskList" class="task-list"></ul>
-    
+
     <div id="emptyMessage" class="empty-message">
-        No hay tareas pendientes. ¡Agrega una nueva tarea arriba!
+      No hay tareas pendientes. ¡Agrega una nueva tarea arriba!
     </div>
 
-    <!-- Firebase SDK -->
+    <div class="music-footer">Sonando Lee Hi - Only You</div>
+
     <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getDatabase, ref, push, onValue, remove, update } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+      import {
+        getDatabase,
+        ref,
+        push,
+        onValue,
+        remove,
+        update,
+      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-        // Tu configuración de Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyCtMmUE4AEs7LvJlBJfmnh_hnEjEjkgCXs",
-            authDomain: "darla-6b11f.firebaseapp.com",
-            databaseURL: "https://darla-6b11f-default-rtdb.firebaseio.com",
-            projectId: "darla-6b11f",
-            storageBucket: "darla-6b11f.firebasestorage.app",
-            messagingSenderId: "360651207971",
-            appId: "1:360651207971:web:b789dc6c57ed9b21884896"
-        };
+      // Configuración y reproducción automática de música
+      const audio = new Audio("Only.mp3");
+      audio.loop = true;
+      audio.volume = 0.07;
 
-        // Inicializar Firebase
-        const app = initializeApp(firebaseConfig);
-        const database = getDatabase(app);
-        const tasksRef = ref(database, 'tasks');
+      // Intentar reproducir automáticamente
+      audio.play().catch((error) => {
+        console.log(
+          "Reproducción automática bloqueada. Se reproducirá con la primera interacción del usuario."
+        );
+        // Si el navegador bloquea la reproducción automática, se reproducirá con el primer clic
+        document.addEventListener(
+          "click",
+          () => {
+            audio.play();
+          },
+          { once: true }
+        );
+      });
 
-        const taskInput = document.getElementById('taskInput');
-        const addBtn = document.getElementById('addBtn');
-        const taskList = document.getElementById('taskList');
-        const emptyMessage = document.getElementById('emptyMessage');
+      // Tu configuración de Firebase
+      const firebaseConfig = {
+        apiKey: "AIzaSyCtMmUE4AEs7LvJlBJfmnh_hnEjEjkgCXs",
+        authDomain: "darla-6b11f.firebaseapp.com",
+        databaseURL: "https://darla-6b11f-default-rtdb.firebaseio.com",
+        projectId: "darla-6b11f",
+        storageBucket: "darla-6b11f.firebasestorage.app",
+        messagingSenderId: "360651207971",
+        appId: "1:360651207971:web:b789dc6c57ed9b21884896",
+      };
 
-        // Agregar tarea
-        function addTask() {
-            const taskText = taskInput.value.trim();
-            if (taskText === '') return;
+      // Inicializar Firebase
+      const app = initializeApp(firebaseConfig);
+      const database = getDatabase(app);
+      const tasksRef = ref(database, "tasks");
 
-            push(tasksRef, {
-                text: taskText,
-                completed: false,
-                timestamp: Date.now()
-            });
+      const taskInput = document.getElementById("taskInput");
+      const addBtn = document.getElementById("addBtn");
+      const taskList = document.getElementById("taskList");
+      const emptyMessage = document.getElementById("emptyMessage");
 
-            taskInput.value = '';
-        }
+      // Agregar tarea
+      function addTask() {
+        const taskText = taskInput.value.trim();
+        if (taskText === "") return;
 
-        // Marcar como completada
-        function toggleTask(taskId, currentStatus) {
-            const taskRef = ref(database, `tasks/${taskId}`);
-            update(taskRef, { completed: !currentStatus });
-        }
-
-        // Eliminar tarea
-        function deleteTask(taskId) {
-            const taskRef = ref(database, `tasks/${taskId}`);
-            remove(taskRef);
-        }
-
-        // Renderizar tareas
-        function renderTasks(tasks) {
-            taskList.innerHTML = '';
-
-            if (!tasks || Object.keys(tasks).length === 0) {
-                emptyMessage.style.display = 'block';
-                return;
-            }
-
-            emptyMessage.style.display = 'none';
-
-            Object.entries(tasks).forEach(([id, task]) => {
-                const li = document.createElement('li');
-                li.className = `task-item ${task.completed ? 'completed' : ''}`;
-
-                const checkbox = document.createElement('input');
-                checkbox.type = 'checkbox';
-                checkbox.className = 'task-checkbox';
-                checkbox.checked = task.completed;
-                checkbox.addEventListener('change', () => toggleTask(id, task.completed));
-
-                const span = document.createElement('span');
-                span.className = 'task-text';
-                span.textContent = task.text;
-
-                const deleteBtn = document.createElement('button');
-                deleteBtn.className = 'delete-btn';
-                deleteBtn.textContent = 'Eliminar';
-                deleteBtn.addEventListener('click', () => deleteTask(id));
-
-                li.appendChild(checkbox);
-                li.appendChild(span);
-                li.appendChild(deleteBtn);
-                taskList.appendChild(li);
-            });
-        }
-
-        // Escuchar cambios en tiempo real
-        onValue(tasksRef, (snapshot) => {
-            const tasks = snapshot.val();
-            renderTasks(tasks);
+        push(tasksRef, {
+          text: taskText,
+          completed: false,
+          timestamp: Date.now(),
         });
 
-        // Event listeners
-        addBtn.addEventListener('click', addTask);
-        taskInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') addTask();
+        taskInput.value = "";
+      }
+
+      // Marcar como completada
+      function toggleTask(taskId, currentStatus) {
+        const taskRef = ref(database, `tasks/${taskId}`);
+        update(taskRef, { completed: !currentStatus });
+      }
+
+      // Eliminar tarea
+      function deleteTask(taskId) {
+        const taskRef = ref(database, `tasks/${taskId}`);
+        remove(taskRef);
+      }
+
+      // Renderizar tareas
+      function renderTasks(tasks) {
+        taskList.innerHTML = "";
+
+        if (!tasks || Object.keys(tasks).length === 0) {
+          emptyMessage.style.display = "block";
+          return;
+        }
+
+        emptyMessage.style.display = "none";
+
+        Object.entries(tasks).forEach(([id, task]) => {
+          const li = document.createElement("li");
+          li.className = `task-item ${task.completed ? "completed" : ""}`;
+
+          const checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.className = "task-checkbox";
+          checkbox.checked = task.completed;
+          checkbox.addEventListener("change", () =>
+            toggleTask(id, task.completed)
+          );
+
+          const span = document.createElement("span");
+          span.className = "task-text";
+          span.textContent = task.text;
+
+          const deleteBtn = document.createElement("button");
+          deleteBtn.className = "delete-btn";
+          deleteBtn.textContent = "Eliminar";
+          deleteBtn.addEventListener("click", () => deleteTask(id));
+
+          li.appendChild(checkbox);
+          li.appendChild(span);
+          li.appendChild(deleteBtn);
+          taskList.appendChild(li);
         });
+      }
+
+      // Escuchar cambios en tiempo real
+      onValue(tasksRef, (snapshot) => {
+        const tasks = snapshot.val();
+        renderTasks(tasks);
+      });
+
+      // Event listeners
+      addBtn.addEventListener("click", addTask);
+      taskInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") addTask();
+      });
     </script>
-</body>
+  </body>
 </html>
